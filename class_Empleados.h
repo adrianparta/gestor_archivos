@@ -15,22 +15,53 @@ private:
 
 public:
 ///SETS
-    bool SetIDEmpleado(int e){IDEmpleado=e; return true;}
-    bool SetNombre(const char *nom){strcpy(nombre,nom); return true;}
-    bool SetApellido(const char *ap){strcpy(apellido,ap); return true;}
-    bool SetDocumento(int d){documento=d; return true;}
-    bool SetTelefono(int t){telefono=t; return true;}
-    bool SetEmail(const char *em){strcpy(email,em); return true;}
-    bool SetSueldo(float su){sueldo=su; return true;}
+    bool SetNombre(){cargarCadena(nombre,29); return true;}
+    bool SetApellido(){cargarCadena(apellido,29); return true;}
+    bool SetDocumento(int d){
+        if(d>0){
+            documento=d;
+            return true;
+        }
+        cout<<"Numero invalido."<<endl;
+        system("pause");
+        return false;
+    }
+    bool SetTelefono(int t){
+        if(t>0){
+            telefono=t;
+            return true;
+        }
+        cout<<"Numero invalido."<<endl;
+        system("pause");
+        return false;
+        }
+    bool SetEmail(){cargarCadena(email,63); return true;}
+    bool SetFechaDeContratacion(){
+        if(fechaDeContratacion.Cargar())return true;
+        return false;
+    }
+    bool SetSueldo(){
+            if((anioActual()-fechaDeContratacion.getAnio())==0){
+                sueldo=sueldoBase;
+                return true;
+            }
+            else{
+                sueldo=sueldoBase+sueldoBase*0.1*(anioActual()-fechaDeContratacion.getAnio());
+                return true;
+            }
+        cout<<"Numero invalido."<<endl;
+        return false;
+    }
     bool SetEstado(bool es){estado=es; return true;}
 
 ///GETS
     int GetIDEmpleado(){return IDEmpleado;}
-    char GetNombre(){return nombre[30];}
-    char GetApellido(){return apellido[30];}
+    char *GetNombre(){return nombre;}
+    char *GetApellido(){return apellido;}
     int GetDocumento(){return documento;}
     int GetTelefono(){return telefono;}
-    char GetEmail(){return email[64];}
+    char *GetEmail(){return email;}
+    Fecha GetFechaDeContratacion(){return fechaDeContratacion;}
     float GetSueldo(){return sueldo;}
     bool GetEstado(){return estado;}
 
@@ -39,39 +70,31 @@ public:
     bool leerDeDisco(int pos);
     bool grabarEnDisco();
     bool modificarEnDisco(int pos);
-
+    int contadorID();
 };
 
 bool Empleado::Cargar(){
-cout<<"Indique ID Empleado: "<<endl;
-int IDe;
-cin>>IDe;
-if(!SetIDEmpleado(IDe))return false;
+IDEmpleado=contadorID();
 cout<<"Indique nombre: "<<endl;
-char nom[30];
-cin>>nom;
-if(!SetNombre(nom))return false;
+if(!SetNombre())return false;
 cout<<"Indique apellido: "<<endl;
-cin>>nom;
-if(!SetApellido(nom))return false;
+if(!SetApellido())return false;
 cout<<"Indique documento: "<<endl;
+int IDe;
 cin>>IDe;
 if(!SetDocumento(IDe))return false;
 cout<<"Indique telefono: "<<endl;
 cin>>IDe;
 if(!SetTelefono(IDe))return false;
+
 cout<<"Indique e-mail: "<<endl;
-char ema[64];
-cin>>ema;
-if(!SetEmail(ema))return false;
+if(!SetEmail())return false;
 cout<<"Indique fecha de contratacion: "<<endl;
 if(!fechaDeContratacion.Cargar())return false;
-cout<<"Indique sueldo: "<<endl;
-cin>>IDe;
-if(!SetSueldo(IDe))return false;
-cout<<"Indique estado: "<<endl;
-cin>>IDe;
-if(!SetEstado(IDe))return false;
+SetSueldo();
+SetEstado(true);
+cout<<"Empleado agregado correctamente"<<endl;
+system("pause");
 return true;
 }
 
@@ -84,9 +107,7 @@ cout<<"El telefono es: "<<GetTelefono()<<endl;
 cout<<"El e-mail es: "<<GetEmail()<<endl;
 cout<<"La fecha de contratacion es: ";
 fechaDeContratacion.Mostrar();
-cout<<endl;
 cout<<"El sueldo es: "<<GetSueldo()<<endl;
-cout<<"El estado es: "<<GetEstado()<<endl;
 return;
 }
 
@@ -117,6 +138,13 @@ bool Empleado::modificarEnDisco(int pos){
     bool escribio=fwrite(this, sizeof (Empleado), 1, p);
     fclose(p);
     return escribio;
+}
+
+int Empleado::contadorID(){
+    Empleado obj;
+    int pos=0;
+    while(obj.leerDeDisco(pos++)){}
+    return pos;
 }
 
 #endif // CLASS_EMPLEADOS_H_INCLUDED

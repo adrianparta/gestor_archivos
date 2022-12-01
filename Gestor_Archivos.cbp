@@ -32,7 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="class_Caja.h" />
+		<Unit filename="class_Productos.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="class_Proveedores.h" />
+		<Unit filename="funciones.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menuProductos.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

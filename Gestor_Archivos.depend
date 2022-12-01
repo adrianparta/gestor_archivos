@@ -1,24 +1,39 @@
 # depslib dependency file v1.0
-1667687034 source:c:\users\adria\onedrive\escritorio\c++\gestor_archivos\main.cpp
+1669850668 source:c:\users\adria\onedrive\escritorio\c++\gestor_archivos\main.cpp
 	<iostream>
 	<cstdlib>
 	<cstring>
 	<cstdio>
 	<ctime>
+	"funciones.h"
 	"class_Fecha.h"
-	"class_ventas.h"
-	"class_Detalles.h"
 	"class_Empleados.h"
+	"class_Proveedores.h"
+	"class_Productos.h"
+	"class_Detalles.h"
+	"class_ventas.h"
+	"class_Caja.h"
+	"menuProductos.h"
 
 1667169617 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\c_fecha.cpp
 	<iostream>
 	<string.h>
 
-1667171496 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_ventas.h
+1669843551 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_ventas.h
 
-1667170885 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_fecha.h
+1669418720 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_fecha.h
 
-1667684643 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_detalles.h
+1669842658 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_detalles.h
 
-1667687683 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_empleados.h
+1669849332 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_empleados.h
+
+1669850267 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_productos.h
+
+1669852475 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_caja.h
+
+1669674710 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\class_proveedores.h
+
+1669851382 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\funciones.h
+
+1669852539 c:\users\adria\onedrive\escritorio\c++\gestor_archivos\menuproductos.h
 
