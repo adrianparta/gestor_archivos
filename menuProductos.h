@@ -329,17 +329,10 @@ void agregarEmpleados();
 void buscarXIDEmpleados();
 void listarEmpleados();
 void modificarDatosEmpleados();
-void modificarSueldoBaseEmpleados();
 void eliminarEmpleados();
 
 void menuEmpleados(){
 
-Empleado obj;
-int a=0;
-while(obj.leerDeDisco(a)){
-    a++;
-}
-if(a==0)sueldoBase=sueldoBaseF();
 int opcion;
     while(true){
         system("cls");
@@ -349,8 +342,7 @@ int opcion;
         cout<<"2- BUSCAR EMPLEADO POR ID"<<endl;
         cout<<"3- LISTAR TODOS LOS EMPLEADOS"<<endl;
         cout<<"4- MODIFICAR DATOS"<<endl;
-        cout<<"5- MODIFICAR SUELDO BASE"<<endl;
-        cout<<"6- ELIMINAR EMPLEADO"<<endl;
+        cout<<"5- ELIMINAR EMPLEADO"<<endl;
         cout<<"--------------------"<<endl;
         cout<<"0- VOLVER AL MENU PRINCIPAL"<<endl;
         cout<<"--------------------";
@@ -367,9 +359,7 @@ int opcion;
                 break;
             case 4: modificarDatosEmpleados();
                 break;
-            case 5: modificarSueldoBaseEmpleados();
-                break;
-            case 6: eliminarEmpleados();
+            case 5: eliminarEmpleados();
                 break;
             case 0:
                 return;
@@ -462,23 +452,6 @@ void modificarDatosEmpleados(){
         pos++;
     }
     cout<<"No existe ese empleado"<<endl;
-    system("pause");
-}
-
-
-void modificarSueldoBaseEmpleados(){
-    Empleado obj;
-    int pos=0;
-    cout<<"Ingrese nuevo sueldo base: ";
-    int su;
-    cin>>su;
-    sueldoBase=su;
-    while(obj.leerDeDisco(pos)){
-        obj.SetSueldo();
-        obj.modificarEnDisco(pos);
-        pos++;
-    }
-    cout<<"Sueldo base modificado correctamente."<<endl;
     system("pause");
 }
 
@@ -771,6 +744,13 @@ void eliminarCajas(){
 }
 
 ///reportes
+void op1();
+void op2();
+void op3();
+void op4();
+void op5();
+
+
 
 void menuReportes(){
     int opcion;
@@ -783,6 +763,7 @@ void menuReportes(){
         cout<<"2- EMPLEADO QUE MAS COBRA "<<endl;
         cout<<"3- PRODUCTO QUE MAS PORCENTAJE DE GANANCIA DEJA"<<endl;
         cout<<"4- PROVEEDOR QUE MAS PRODUCTOS ME TRAE"<<endl;
+        cout<<"5- MODIFICAR SUELDO BASE Y ALQUILER"<<endl;
         cout<<"--------------------"<<endl;
         cout<<"0- VOLVER AL MENU PRINCIPAL"<<endl;
         cout<<"--------------------";
@@ -791,15 +772,15 @@ void menuReportes(){
         cin>>opcion;
         system("cls");
         switch(opcion){
-            case 1: agregarEgresosCajas();
+            case 1: op1();
                 break;
-            case 2: buscarXFechaCajas();
+            case 2: op2();
                 break;
-            case 3: listarCajas();
+            case 3: op3();
                 break;
-            case 4: modificarEgresosCajas();
+            case 4: op4();
                 break;
-            case 5: eliminarCajas();
+            case 5: op5();
                 break;
             case 0:
                 return;
@@ -810,4 +791,156 @@ void menuReportes(){
         }
     }
 }
+
+void op1(){
+    Fecha *vec;
+    int *contador;
+    Venta obj;
+    int pos=0,contarRegistros=0;
+    while(obj.leerDeDisco(pos)){
+        pos++;
+        contarRegistros++;
+    }
+    vec=new Fecha[contarRegistros];
+    contador=new int[contarRegistros];
+    for(int i=0; i<contarRegistros; i++){
+        contador[i]=0;
+    }
+    pos=0;
+    while(obj.leerDeDisco(pos)){
+        vec[pos]=obj.GetFechaDeVenta();
+        pos++;
+    }
+
+    pos=0;
+    while(obj.leerDeDisco(pos)){
+        for(int i=0; i<contarRegistros; i++){
+            if(obj.GetFechaDeVenta().getAnio()==vec[i].getAnio() && obj.GetFechaDeVenta().getMes()==vec[i].getMes() && obj.GetFechaDeVenta().getDia()==vec[i].getDia() && obj.GetEstadoVenta()){
+                contador[i]++;
+            }
+        }
+        pos++;
+    }
+    int maximo=0, posmax=0;
+    for(int i=0; i<contarRegistros; i++){
+        if(contador[i]>maximo){
+            maximo=contador[i];
+            posmax=i;
+        }
+    }
+    cout<<"El dia con mayor cantidad de ventas es: "<<endl;
+    vec[posmax].Mostrar();
+    cout<<"Ese dia hubo "<<contador[posmax]<<" ventas."<<endl;
+    system("pause");
+
+    delete vec;
+    delete contador;
+}
+
+void op2(){
+    Empleado obj,maximo;
+    float maxsueldo=0;
+    int pos=0;
+    while(obj.leerDeDisco(pos)){
+        if(obj.GetSueldo()>maxsueldo){
+            maxsueldo=obj.GetSueldo();
+            maximo=obj;
+        }
+        pos++;
+    }
+    cout<<"El empleado que mas cobra es: "<<maximo.GetNombre()<<" "<<maximo.GetApellido()<<endl;
+    cout<<"Su sueldo es de: "<<maximo.GetSueldo()<<endl;
+    system("pause");
+}
+
+void op3(){
+    Producto obj,maximo;
+    float maxdif=0;
+    int pos=0;
+    while(obj.leerDeDisco(pos)){
+        if(((obj.GetPrecioVenta()/obj.GetPrecioCompra())-1)*100>maxdif && obj.GetEstado()){
+            maxdif=((obj.GetPrecioVenta()/obj.GetPrecioCompra())-1)*100;
+            maximo=obj;
+        }
+        pos++;
+    }
+    cout<<"El producto que mas porcentaje de ganancia es: "<<maximo.GetNombre()<<endl;
+    cout<<"deja "<<maxdif<<"% de ganancia."<<endl;
+    system("pause");
+}
+
+void op4(){
+    Producto obj;
+    Proveedor reg,*aux;
+    int*contador,i=0;
+    while(reg.leerDeDisco(i)){
+        i++;
+    }
+    aux=new Proveedor[i];
+    contador=new int[i];
+    int pos=0;
+    while(reg.leerDeDisco(pos)){
+        aux[pos]=reg;
+        contador[pos]=0;
+        pos++;
+    }
+
+    pos=0;
+    while(obj.leerDeDisco(pos)){
+        for(int e=0; e<i; e++){
+            if(obj.GetIDProveedor()==aux[e].GetIDProveedor() && obj.GetEstado()){
+                contador[e]++;
+            }
+        }
+        pos++;
+    }
+
+    int maximo=0, posmax=0;
+    for(int g=0; g<i; g++){
+        if(contador[g]>maximo){
+            maximo=contador[g];
+            posmax=g;
+        }
+    }
+
+    cout<<"El proveedor que mas productos trae es: "<<aux[posmax].GetNombre()<<endl;
+    cout<<"Trae "<<maximo<<" productos."<<endl;
+    system("pause");
+}
+
+void op5(){
+    Datos obj;
+    obj.leerDeDisco(0);
+    cout<<"El alquiler y el pago de servicios es: "<<obj.GetAlquiler()<<endl;
+    cout<<"El sueldo base es: "<<obj.GetSueldoBase()<<endl;
+    cout<<"Indique nuevos datos: "<<endl;
+    cout<<"Alquiler: ";
+    float f;
+    cin>>f;
+    if(!obj.SetAlquiler(f))return;
+    cout<<"Sueldo base: ";
+    cin>>f;
+    if(!obj.SetSueldoBase(f))return;
+    obj.modificarEnDisco();
+    Empleado reg;
+    int pos=0;
+    while(reg.leerDeDisco(pos)){
+        reg.SetSueldo();
+        reg.modificarEnDisco(pos);
+        pos++;
+    }
+
+    Caja aux;
+    pos=0;
+    while(aux.leerDeDisco(pos)){
+        aux.SetAlquiler();
+        reg.modificarEnDisco(pos);
+        pos++;
+    }
+    cout<<"Se actualizaron los valores."<<endl;
+    system("pause");
+}
+
+
+
 #endif // MENUPRODUCTOS_H_INCLUDED

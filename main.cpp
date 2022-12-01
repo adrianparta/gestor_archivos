@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <ctime>
 using namespace std;
+#include "class_Datos.h"
 #include "funciones.h"
 #include "class_Fecha.h"
 #include "class_Empleados.h"
@@ -14,8 +15,18 @@ using namespace std;
 #include "class_Caja.h"
 #include "menuProductos.h"
 
-int main()
-{
+int main(){
+
+    Datos obj;
+    int a=0;
+    while(obj.leerDeDisco(a)){
+        a=1;
+    }
+    if(!a){
+        obj.cargar();
+        obj.grabarEnDisco();
+    }
+
     int opcion;
     while(true)
     {
@@ -51,7 +62,6 @@ int main()
             case 0:
                 return 0;
                 break;
-*/
             default: cout<<"ERROR"<<endl;
                 system("pause");
                 break;

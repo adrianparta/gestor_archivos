@@ -12,7 +12,6 @@ private:
     Fecha fechaDeContratacion;
     float sueldo;
     bool estado;
-
 public:
 ///SETS
     bool SetNombre(){cargarCadena(nombre,29); return true;}
@@ -42,14 +41,17 @@ public:
     }
     bool SetSueldo(){
             if((anioActual()-fechaDeContratacion.getAnio())==0){
-                sueldo=sueldoBase;
+                Datos obj;
+                obj.leerDeDisco(0);
+                sueldo=obj.GetSueldoBase();
                 return true;
             }
             else{
-                sueldo=sueldoBase+sueldoBase*0.1*(anioActual()-fechaDeContratacion.getAnio());
+                Datos obj;
+                obj.leerDeDisco(0);
+                sueldo=obj.GetSueldoBase()+obj.GetSueldoBase()*0.1*(anioActual()-fechaDeContratacion.getAnio());
                 return true;
             }
-        cout<<"Numero invalido."<<endl;
         return false;
     }
     bool SetEstado(bool es){estado=es; return true;}

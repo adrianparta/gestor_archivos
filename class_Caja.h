@@ -9,7 +9,7 @@ private:
     float egresos;
     bool estado;
     float ganancia;
-
+    float alquiler;
 public:
     ///gets
     float GetEgresos(){return egresos;}
@@ -29,10 +29,15 @@ public:
             sueldos+=obj.GetSueldo();
             pos++;
         }
-        egresos=eg+(sueldos)+500; /// 500 de alquiler por dia, solo se agrega en egresos los pagos que no sean sueldos y alquiler
+        egresos=eg+sueldos+alquiler;
         return true;
     }
 
+    void SetAlquiler(){
+        Datos obj;
+        obj.leerDeDisco(0);
+        alquiler=obj.GetAlquiler();
+    }
     void SetFecha(Fecha f){fecha=f;}
     void SetEstado(bool e){
         estado=e;
